@@ -156,7 +156,7 @@ export const CatForm = ({ onSuccess }) => {
 const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; //??
   border: black solid 2px;
   border-radius: 15px;
 `
@@ -167,8 +167,8 @@ const StyledForm = styled.form`
 `
 
 const ImageBox = styled.div`
-  width: 300px;
-  height: 300px;
+  max-width: 300px;
+  max-height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,4 +1,4 @@
-import express, { text } from "express"
+import express, { } from "express"
 import multer from "multer"
 import dotenv from "dotenv"
 import { CloudinaryStorage } from "multer-storage-cloudinary"
@@ -39,15 +39,21 @@ router.get("/cats", async (req, res) => {
 })
 
 // Post
-router.post('/cats', parser.single('picture'), async (req, res) => {
+router.post("/cats", parser.single('picture'), async (req, res) => {
   try {
+
     const { filename, gender, location } = req.body
+
     if (!req.file) {
       return res.status(400).json({ message: "Image file missing" })
     }
     if (!filename || !gender || !location) {
       return res.status(400).json({ message: "All fields are required" })
     }
+
+    // const transformedUrl = cloudinary.url(req.file.public_id, {
+    //   effect: "background_removal",
+    // })
 
     const cat = await new Cat({
       name: filename,
