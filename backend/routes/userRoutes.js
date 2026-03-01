@@ -20,7 +20,7 @@ export const User = mongoose.model('User', UserSchema)
 
 
 // New User
-router.post('/users/signup', async (req, res) => {
+router.post('/signup', async (req, res) => {
   try {
     const { name, email, password } = req.body
 
@@ -61,7 +61,7 @@ router.post('/users/signup', async (req, res) => {
 })
 
 // Log In
-router.post('/users/login', async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body
     const user = await User.findOne({ email: email.toLowerCase() })

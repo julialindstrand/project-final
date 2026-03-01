@@ -26,7 +26,7 @@ export const Dashboard = ({
       )}
       <CatForm onSuccess={handleNewCat} />
       <SectionTitle>All Cats</SectionTitle>
-      <CatList externalCats={cats} setExternalCats={setCats} />
+      <CatList externalCats={cats} currentUser={user} />
     </PageWrapper>
   )
 }

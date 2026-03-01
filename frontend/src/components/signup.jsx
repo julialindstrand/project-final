@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import { API_URL } from "../App"
+import { API_URL, fetchJson } from "../api"
 import { useNavigate } from "react-router-dom"
 
 export const SignUpForm = ({ onSuccess, setUser }) => {
@@ -31,7 +31,7 @@ export const SignUpForm = ({ onSuccess, setUser }) => {
     setErrorMsg("")
 
     try {
-      const response = await fetch(`${API_URL}/users/signup`, {
+      const payload = await fetchJson(`${API_URL}/users/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -43,7 +43,7 @@ export const SignUpForm = ({ onSuccess, setUser }) => {
         throw new Error(msg)
       }
 
-      const payload = await response.json()
+      // const payload = await response.json()
       const user = payload.response || payload
 
       if (user.accessToken) {

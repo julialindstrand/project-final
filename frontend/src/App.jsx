@@ -1,13 +1,12 @@
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom"
 import { GlobalStyle } from "./styling/GlobalStyles"
 import { LoginForm } from "./components/login"
 import { SignUpForm } from "./components/signup"
 import ProtectedRoute from "./pages/start"
 import { Dashboard } from "./pages/dashboard"
+import { API_URL, fetchJson } from "./api"
 import styled from "styled-components"
-
-export const API_URL = "http://localhost:8080"
 
 export const App = () => {
   const navigate = useNavigate()
@@ -15,16 +14,8 @@ export const App = () => {
   const [user, setUser] = useState(null)
   const [authMode, setAuthMode] = useState("login")
 
-  const authHeaders = useCallback(
-    () => ({
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    }),
-    []
-  )
-
   const login = async (email, password) => {
-    const res = await fetch(`${API_URL}/users/login`, {
+    const res = await fetch(`${API_URL}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -62,25 +53,17 @@ export const App = () => {
 
   const loadCats = async () => {
     try {
-      const res = await fetch(`${API_URL}/cats`, {
-        headers: authHeaders(),
+      const data = await fetchJson(`${API_URL}/cats`, {
       })
-      if (!res.ok) throw new Error(`Status ${res.status}`)
-
-      const raw = await res.json()
-      const formatted = raw.map((item) => ({
-        id: item._id,
-        name: item.name,
-        imageUrl: item.imageUrl,
-        gender: item.gender,
-        location: item.location,
-        userId: item.userId,
-      }))
-      setCats(formatted)
+      setCats(data)
     } catch (e) {
       console.error("Failed to load cats:", e)
     }
   }
+
+  useEffect(() => {
+    loadCats()
+  }, [])
 
   const handleNewCat = (newCatFromForm) => {
     const formatted = {

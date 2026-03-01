@@ -7,6 +7,7 @@ import Cat from "../models/Cat"
 
 dotenv.config()
 
+// Cloudinary
 const cloudinary = cloudinaryFramework.v2
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -50,10 +51,6 @@ router.post("/cats", parser.single('picture'), async (req, res) => {
     if (!filename || !gender || !location) {
       return res.status(400).json({ message: "All fields are required" })
     }
-
-    // const transformedUrl = cloudinary.url(req.file.public_id, {
-    //   effect: "background_removal",
-    // })
 
     const cat = await new Cat({
       name: filename,

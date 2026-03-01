@@ -3,6 +3,7 @@ import dotenv from "dotenv"
 import express from "express"
 import mongoose from "mongoose"
 import catRouter from "./routes/catRoutes.js"
+import commentRouter from "./routes/commentRoutes.js"
 import userRouter from "./routes/userRoutes.js"
 
 dotenv.config()
@@ -10,8 +11,9 @@ dotenv.config()
 const app = express()
 app.use(cors())
 app.use(express.json())
-app.use("/", catRouter)
-app.use("/", userRouter)
+app.use("/cats", catRouter)
+app.use("/cats", commentRouter)
+app.use("/users", userRouter)
 
 mongoose
   .connect(process.env.MONGO_URL || "mongodb://127.0.0.1:27017/final-project", {

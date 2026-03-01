@@ -1,6 +1,6 @@
 import { useState } from "react"
 import styled from "styled-components"
-import { API_URL } from "../App"
+import { API_URL, fetchJson } from "../api"
 import placeholderImg from "../assets/placeholderImg.jpg"
 
 export const CatForm = ({ onSuccess }) => {
@@ -51,7 +51,7 @@ export const CatForm = ({ onSuccess }) => {
       payload.append("gender", formData.gender)
       payload.append("location", formData.location)
 
-      const response = await fetch(`${API_URL}/cats`, {
+      const response = await fetchJson(`${API_URL}/cats`, {
         method: "POST",
         body: payload,
       })
@@ -62,7 +62,7 @@ export const CatForm = ({ onSuccess }) => {
         throw new Error(msg)
       }
 
-      const newCat = await response.json();
+      const newCat = await response.json()
       if (typeof onSuccess === "function") {
         onSuccess(newCat)
       }
@@ -106,7 +106,6 @@ export const CatForm = ({ onSuccess }) => {
             name="name"
             value={formData.name}
             onChange={handleChange}
-          // placeholder="Enter cats name"
           />
         </div>
 
