@@ -1,10 +1,14 @@
 import styled from "styled-components"
 import { CatCard } from "./card"
 
-export const CatList = ({ externalCats, currentUser }) => (
+export const CatList = ({ externalCats, currentUser, onDelete }) => (
   <Grid>
     {externalCats.map((cat) => (
-      <CatCard key={cat._id} cat={cat} currentUser={currentUser} />
+      <CatCard
+        key={cat._id}
+        cat={cat}
+        currentUser={currentUser}
+        onDelete={onDelete} />
     ))}
   </Grid>
 )

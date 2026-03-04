@@ -1,18 +1,19 @@
-export const API_URL = "http://localhost:8080";
+export const API_URL = "http://localhost:8080"
 
-export const fetchJson = async (API_URL, options = {}) => {
-  const res = await fetch(API_URL, {
+export const fetchJson = async (url, options = {}) => {
+  const token = localStorage.getItem("token")
+  const res = await fetch(url, {
     ...options,
     headers: {
-      ...(options.headers || {}),
       "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      ...(options.headers || {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
   })
 
   if (!res.ok) {
-    const errBody = await res.json().catch(() => ({}))
-    const msg = errBody.message || `Status ${res.status}`
+    const err = await res.json().catch(() => ({}))
+    const msg = err.message || `Status ${res.status}`
     throw new Error(msg)
   }
 

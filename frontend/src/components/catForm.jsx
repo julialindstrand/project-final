@@ -1,6 +1,6 @@
 import { useState } from "react"
 import styled from "styled-components"
-import { API_URL, fetchJson } from "../api"
+import { API_URL } from "../api"
 import placeholderImg from "../assets/placeholderImg.jpg"
 
 export const CatForm = ({ onSuccess }) => {
@@ -51,8 +51,10 @@ export const CatForm = ({ onSuccess }) => {
       payload.append("gender", formData.gender)
       payload.append("location", formData.location)
 
-      const response = await fetchJson(`${API_URL}/cats`, {
+      const token = localStorage.getItem("token")
+      const response = await fetch(`${API_URL}/cats`, {
         method: "POST",
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
         body: payload,
       })
 

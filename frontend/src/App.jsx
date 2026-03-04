@@ -15,7 +15,7 @@ export const App = () => {
   const [authMode, setAuthMode] = useState("login")
 
   const login = async (email, password) => {
-    const res = await fetch(`${API_URL}/login`, {
+    const res = await fetch(`${API_URL}/users/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -24,27 +24,46 @@ export const App = () => {
     if (!res.ok) throw new Error("Login failed")
 
     const { response } = await res.json()
-    localStorage.setItem("user", JSON.stringify(response))
-    if (response.accessToken) localStorage.setItem("token", response.accessToken)
-    if (response.id) localStorage.setItem("userId", response.id)
-    setUser(response)
+    console.log("login response:", response)
 
+    if (response.token) {
+      localStorage.setItem("token", response.token)
+    } else {
+      console.warn("No token returned from login", response)
+    }
+
+    localStorage.setItem("user", JSON.stringify(response))
+    setUser(response)
 
     navigate("/dashboard")
   }
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user")
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser))
+      } catch (e) {
+        console.warn("Corrupt user data in localStorage", e)
+        localStorage.removeItem("user")
+      }
+    }
+  }, [])
+
+
   const handleSignUpSuccess = (newUser) => {
-    localStorage.setItem("token", newUser.accessToken)
+    if (newUser.token) {
+      localStorage.setItem("token", newUser.token)
+    }
     localStorage.setItem("user", JSON.stringify(newUser))
     setUser(newUser)
     navigate("/dashboard")
   }
 
   const handleLogout = () => {
-    setUser(null);
     localStorage.removeItem("user")
     localStorage.removeItem("token")
-    localStorage.removeItem("userId")
+    setUser(null)
     navigate("/login")
   }
 
@@ -65,6 +84,7 @@ export const App = () => {
     loadCats()
   }, [])
 
+
   const handleNewCat = (newCatFromForm) => {
     const formatted = {
       id: newCatFromForm._id,
@@ -75,6 +95,15 @@ export const App = () => {
       userId: newCatFromForm.userId,
     }
     setCats((prev) => [formatted, ...prev])
+  }
+
+  const deleteCat = async (id) => {
+    try {
+      await fetchJson(`${API_URL}/cats/${id}`, { method: "DELETE" })
+      setCats((prev) => prev.filter((c) => c._id !== id))
+    } catch (err) {
+      console.error("Delete cat error:", err)
+    }
   }
 
   return (
@@ -130,6 +159,7 @@ export const App = () => {
                 loadCats={loadCats}
                 logout={handleLogout}
                 user={user}
+                onDelete={deleteCat}
               />
             }
           />
@@ -140,6 +170,7 @@ export const App = () => {
   )
 }
 
+// Styling
 const ToggleWrapper = styled.div`
   margin-top: 12px;
   text-align: center;
@@ -148,7 +179,7 @@ const ToggleWrapper = styled.div`
 const ToggleBtn = styled.button`
   background: none;
   border: none;
-  color: #0066cc;
+  color: #fcfcfc;
   cursor: pointer;
   font-size: 0.95rem;
   &:hover {

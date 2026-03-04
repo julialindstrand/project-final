@@ -5,13 +5,12 @@ import Cat from "../models/Cat.js"
 const router = express.Router()
 
 // Comments
-router.get("/:catId/comments", async (req, res) => {
+router.get("/cats/:catId/comments", async (req, res) => {
   const { catId } = req.params
   try {
     const cat = await Cat.findById(catId).select("comments")
     if (!cat) return res.status(404).json({ message: "Cat not found" })
 
-    // Sort newest first (optional)
     const sorted = cat.comments.sort(
       (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
     )
@@ -23,7 +22,7 @@ router.get("/:catId/comments", async (req, res) => {
 })
 
 // Post comment
-router.post("/:catId/comments", verifyToken, async (req, res) => {
+router.post("/cats/:catId/comments", verifyToken, async (req, res) => {
   const { catId } = req.params
   const { text } = req.body
 

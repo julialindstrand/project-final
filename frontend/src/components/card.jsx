@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 import { API_URL, fetchJson } from "../api"
 
-export const CatCard = ({ cat, currentUser }) => {
+export const CatCard = ({ cat, currentUser, onDelete }) => {
   const catId = cat._id
   const [expanded, setExpanded] = useState(false)
   const [comments, setComments] = useState([])
@@ -37,8 +37,13 @@ export const CatCard = ({ cat, currentUser }) => {
     if (!newText.trim()) return
 
     try {
+      const token = localStorage.getItem("token")
       const created = await fetchJson(`${API_URL}/cats/${catId}/comments`, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({ text: newText.trim() }),
       })
       setComments((prev) => [created, ...prev])
@@ -46,6 +51,13 @@ export const CatCard = ({ cat, currentUser }) => {
     } catch (e) {
       console.error(e)
       setError(e.message || "Could not post comment")
+    }
+  }
+
+  // Delete
+  const handleDelete = () => {
+    if (window.confirm(`Delete "${cat.name}"? This cannot be undone.`)) {
+      if (typeof onDelete === "function") onDelete(catId)
     }
   }
 
@@ -62,6 +74,9 @@ export const CatCard = ({ cat, currentUser }) => {
           <Tag>{cat.location}</Tag>
         </Meta>
       </Info>
+      <button onClick={handleDelete}>
+        🗑️
+      </button>
 
       {/* Expand / collapse button */}
       <ToggleBtn onClick={toggleExpand}>

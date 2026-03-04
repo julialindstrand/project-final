@@ -10,6 +10,7 @@ export const Dashboard = ({
   loadCats,
   logout,
   user,
+  onDelete,
 }) => {
   useEffect(() => {
     loadCats()
@@ -26,7 +27,10 @@ export const Dashboard = ({
       )}
       <CatForm onSuccess={handleNewCat} />
       <SectionTitle>All Cats</SectionTitle>
-      <CatList externalCats={cats} currentUser={user} />
+      <CatList
+        externalCats={cats}
+        currentUser={user}
+        onDelete={onDelete} />
     </PageWrapper>
   )
 }

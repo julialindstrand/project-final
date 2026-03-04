@@ -31,7 +31,7 @@ const router = express.Router()
 // All cats
 router.get("/cats", async (req, res) => {
   try {
-    const cats = await Cat.find().sort({ createdAt: "desc" })
+    const cats = await Cat.find().sort({ createdAt: -1 })
     res.json(cats)
 
   } catch (error) {
@@ -66,6 +66,35 @@ router.post("/cats", parser.single('picture'), async (req, res) => {
       return res.status(400).json({ message: err.message, errors: err.errors })
     }
     res.status(500).json({ message: err.message || 'Server error' })
+  }
+})
+
+router.delete("/cats/:id", async (req, res) => {
+  const id = req.params.id
+  try {
+    const cat = await Cat.findById(id)
+
+    if (!cat) {
+      return res.status(404).json({
+        success: false,
+        response: [],
+        message: "Cat not found"
+      })
+    }
+
+    await Cat.findByIdAndDelete(id)
+
+    res.status(200).json({
+      success: true,
+      response: id,
+      message: "Cat deleted successfully"
+    })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      response: null,
+      message: error,
+    })
   }
 })
 

@@ -2,6 +2,9 @@ import bcrypt from "bcrypt"
 import crypto from "crypto"
 import express from "express"
 import mongoose from "mongoose"
+import dotenv from "dotenv"
+
+dotenv.config
 
 const router = express.Router()
 
@@ -10,7 +13,7 @@ const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  accessToken: {
+  token: {
     type: String,
     default: () => crypto.randomBytes(128).toString("hex"),
   },
@@ -48,7 +51,7 @@ router.post('/signup', async (req, res) => {
         name: user.name,
         email: user.email,
         id: user._id,
-        accessToken: user.accessToken,
+        token: user.token,
       },
     })
   } catch (error) {
@@ -61,7 +64,7 @@ router.post('/signup', async (req, res) => {
 })
 
 // Log In
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body
     const user = await User.findOne({ email: email.toLowerCase() })
@@ -74,7 +77,7 @@ router.post('/login', async (req, res) => {
           id: user._id,
           name: user.name,
           email: user.email,
-          accessToken: user.accessToken
+          token: user.token
         },
       })
     } else {

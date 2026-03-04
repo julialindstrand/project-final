@@ -14,5 +14,7 @@ export const GlobalStyle = createGlobalStyle`
     width: 70%;
     max-width: 500px;
     padding: 30px;
+
+    background-color: #3d3a37;
 }
 `

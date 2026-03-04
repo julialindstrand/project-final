@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import { API_URL, fetchJson } from "../api"
+import { API_URL } from "../api"
 import { useNavigate } from "react-router-dom"
 
-export const SignUpForm = ({ onSuccess, setUser }) => {
+export const SignUpForm = ({ setUser }) => {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: "",
@@ -31,34 +31,29 @@ export const SignUpForm = ({ onSuccess, setUser }) => {
     setErrorMsg("")
 
     try {
-      const payload = await fetchJson(`${API_URL}/users/signup`, {
+      const res = await fetch(`${API_URL}/users/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       })
 
-      if (!response.ok) {
-        const errBody = await response.json().catch(() => ({}))
-        const msg = errBody.message || `Status ${response.status}`
-        throw new Error(msg)
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        throw new Error(err.message || `Status ${res.status}`)
       }
 
-      // const payload = await response.json()
+      const payload = await res.json()
       const user = payload.response || payload
 
-      if (user.accessToken) {
-        localStorage.setItem("token", user.accessToken)
-      }
+      // Store token & user
+      if (user.token) localStorage.setItem("token", user.token)
       localStorage.setItem("user", JSON.stringify(user))
 
-      if (typeof setUser === "function") setUser(user)
-      if (typeof onSuccess === "function") onSuccess(user)
+      setUser(user);
       navigate("/dashboard")
-    } catch (error) {
-      console.error("Sign‑up error:", error);
-      setErrorMsg(error.message || "Could not create account")
-    } finally {
-      setIsSubmitting(false)
+    } catch (err) {
+      console.error(err)
+      setErrorMsg(err.message)
     }
   }
 

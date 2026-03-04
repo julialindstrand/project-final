@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import commentSchema from "./Comments"
 
 const catSchema = new mongoose.Schema(
   {
@@ -10,7 +11,8 @@ const catSchema = new mongoose.Schema(
     },
     imageUrl: { type: String, required: true },
     location: { type: String, required: true },
-  })
+    comments: [commentSchema],
+  }, { timestamps: true })
 
 const Cat = mongoose.models.Cat || mongoose.model("Cat", catSchema)
 
