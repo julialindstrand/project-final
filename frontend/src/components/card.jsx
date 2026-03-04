@@ -2,59 +2,34 @@ import React, { useState } from "react"
 import styled from "styled-components"
 import { API_URL, fetchJson } from "../api"
 
-export const CatCard = ({ cat, currentUser, onDelete }) => {
+export const CatCard = ({ cat, currentUser, onCreateComment, onDelete, onDeleteComment }) => {
   const catId = cat._id
   const [expanded, setExpanded] = useState(false)
   const [comments, setComments] = useState([])
   const [loading, setLoading] = useState(false)
   const [newText, setNewText] = useState("")
   const [error, setError] = useState("")
-
-  const loadComments = async () => {
-    setLoading(true)
-    try {
-      const data = await fetchJson(`${API_URL}/cats/${catId}/comments`)
-      setComments(data)
-    } catch (e) {
-      console.error(e)
-      setError("Failed to load comments")
-    } finally {
-      setLoading(false)
-    }
-  }
+  const [isEditing, setIsEditing] = useState(false)
 
   // Show comments
   const toggleExpand = () => {
     setExpanded((prev) => !prev)
-    if (!expanded && comments.length === 0) {
-      loadComments()
-    }
   }
 
   // New comment
-  const handleSubmit = async (e) => {
+  const handleCreateComment = async (e) => {
     e.preventDefault()
     if (!newText.trim()) return
-
-    try {
-      const token = localStorage.getItem("token")
-      const created = await fetchJson(`${API_URL}/cats/${catId}/comments`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ text: newText.trim() }),
-      })
-      setComments((prev) => [created, ...prev])
-      setNewText("")
-    } catch (e) {
-      console.error(e)
-      setError(e.message || "Could not post comment")
-    }
+    if (typeof onCreateComment === "function") onCreateComment(catId, newText.trim())
+    setNewText("")
   }
 
-  // Delete
+  // Delete comment
+  const handleDeleteComment = (catId, commentId) => {
+    if (typeof onDelete === "function") onDeleteComment(catId, commentId)
+  }
+
+  // Delete cat
   const handleDelete = () => {
     if (window.confirm(`Delete "${cat.name}"? This cannot be undone.`)) {
       if (typeof onDelete === "function") onDelete(catId)
@@ -88,17 +63,20 @@ export const CatCard = ({ cat, currentUser, onDelete }) => {
           {error && <ErrorMsg>{error}</ErrorMsg>}
 
           <CommentList>
-            {comments.map((c) => (
+            {cat.comments.map((c) => (
               <CommentItem key={c._id}>
                 <Author>{c.userName}</Author>
                 <Timestamp>{new Date(c.createdAt).toLocaleString()}</Timestamp>
+                <button onClick={() => handleDeleteComment(catId, c._id)}>
+                  🗑️
+                </button>
                 <Text>{c.text}</Text>
               </CommentItem>
             ))}
           </CommentList>
 
           {currentUser && (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleCreateComment}>
               <CommentInput
                 placeholder="Write a comment…"
                 value={newText}
@@ -109,8 +87,9 @@ export const CatCard = ({ cat, currentUser, onDelete }) => {
             </form>
           )}
         </ExpandedSection>
-      )}
-    </CardWrapper>
+      )
+      }
+    </CardWrapper >
   )
 }
 

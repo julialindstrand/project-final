@@ -84,7 +84,7 @@ export const App = () => {
     loadCats()
   }, [])
 
-
+  // Cats
   const handleNewCat = (newCatFromForm) => {
     const formatted = {
       id: newCatFromForm._id,
@@ -103,6 +103,35 @@ export const App = () => {
       setCats((prev) => prev.filter((c) => c._id !== id))
     } catch (err) {
       console.error("Delete cat error:", err)
+    }
+  }
+
+  // Comments
+  const createComment = async (catId, newText) => {
+    try {
+      const token = localStorage.getItem("token")
+      await fetchJson(`${API_URL}/cats/${catId}/comments`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ text: newText.trim() }),
+      })
+      loadCats()
+    } catch (e) {
+      console.error(e)
+      setError(e.message || "Could not post comment")
+    }
+  }
+
+
+  const deleteComment = async (catId, commentId) => {
+    try {
+      await fetchJson(`${API_URL}/cats/${catId}/comments/${commentId}`, { method: "DELETE" })
+      loadCats()
+    } catch (err) {
+      console.error("Delete comment error:", err)
     }
   }
 
@@ -159,7 +188,9 @@ export const App = () => {
                 loadCats={loadCats}
                 logout={handleLogout}
                 user={user}
+                onCreateComment={createComment}
                 onDelete={deleteCat}
+                onDeleteComment={deleteComment}
               />
             }
           />

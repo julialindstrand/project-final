@@ -39,6 +39,18 @@ router.get("/cats", async (req, res) => {
   }
 })
 
+// One cat
+router.get("/cats/:id", async (req, res) => {
+  const id = req.params.id
+  try {
+    const cat = await Cat.findById(id)
+    res.json(cat)
+
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch cat" })
+  }
+})
+
 // Post
 router.post("/cats", parser.single('picture'), async (req, res) => {
   try {

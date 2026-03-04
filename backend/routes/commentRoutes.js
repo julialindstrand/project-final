@@ -51,4 +51,28 @@ router.post("/cats/:catId/comments", verifyToken, async (req, res) => {
   }
 })
 
+// Delete comment
+router.delete("/cats/:catId/comments/:commentId", verifyToken, async (req, res) => {
+  const { catId, commentId } = req.params
+  const cat = await Cat.findById(catId)
+  if (!cat) return res.status(404).json({ message: "Cat not found" })
+  try {
+    cat.comments.pull({ _id: commentId })
+
+    await cat.save()
+
+    res.status(200).json({
+      success: true,
+      response: commentId,
+      message: "Comment deleted successfully"
+    })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      response: null,
+      message: error,
+    })
+  }
+})
+
 export default router

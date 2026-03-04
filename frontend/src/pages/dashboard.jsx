@@ -10,7 +10,9 @@ export const Dashboard = ({
   loadCats,
   logout,
   user,
+  onCreateComment,
   onDelete,
+  onDeleteComment,
 }) => {
   useEffect(() => {
     loadCats()
@@ -30,7 +32,9 @@ export const Dashboard = ({
       <CatList
         externalCats={cats}
         currentUser={user}
-        onDelete={onDelete} />
+        onCreateComment={onCreateComment}
+        onDelete={onDelete}
+        onDeleteComment={onDeleteComment} />
     </PageWrapper>
   )
 }
