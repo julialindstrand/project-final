@@ -4,6 +4,7 @@ import dotenv from "dotenv"
 import { CloudinaryStorage } from "multer-storage-cloudinary"
 import cloudinaryFramework from "cloudinary"
 import Cat from "../models/Cat"
+import { verifyToken } from "../models/auth"
 
 dotenv.config()
 
@@ -81,6 +82,27 @@ router.post("/cats", parser.single('picture'), async (req, res) => {
   }
 })
 
+// Edit
+router.put("/cats/:id", verifyToken, async (req, res) => {
+  try {
+
+    const editedCat = req.body
+
+    const cat = await Cat.findById(editedCat._id)
+
+    cat.name = editedCat.name
+    cat.gender = editedCat.gender
+    cat.location = editedCat.location
+
+    await cat.save()
+    res.json(cat)
+
+  } catch (error) {
+    res.status(500).json({ error: "Failed to edit cat" })
+  }
+})
+
+// Delete
 router.delete("/cats/:id", async (req, res) => {
   const id = req.params.id
   try {

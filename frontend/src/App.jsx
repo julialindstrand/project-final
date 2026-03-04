@@ -97,6 +97,22 @@ export const App = () => {
     setCats((prev) => [formatted, ...prev])
   }
 
+  const onEdit = async (catId, cat) => {
+    try {
+      const token = localStorage.getItem("token")
+      await fetchJson(`${API_URL}/cats/${catId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(cat),
+      })
+      loadCats()
+    } catch (e) { console.log(e) }
+  }
+
+
   const deleteCat = async (id) => {
     try {
       await fetchJson(`${API_URL}/cats/${id}`, { method: "DELETE" })
@@ -186,6 +202,7 @@ export const App = () => {
                 setCats={setCats}
                 handleNewCat={handleNewCat}
                 loadCats={loadCats}
+                onEdit={onEdit}
                 logout={handleLogout}
                 user={user}
                 onCreateComment={createComment}

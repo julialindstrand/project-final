@@ -11,6 +11,7 @@ export const Dashboard = ({
   logout,
   user,
   onCreateComment,
+  onEdit,
   onDelete,
   onDeleteComment,
 }) => {
@@ -33,6 +34,7 @@ export const Dashboard = ({
         externalCats={cats}
         currentUser={user}
         onCreateComment={onCreateComment}
+        onEdit={onEdit}
         onDelete={onDelete}
         onDeleteComment={onDeleteComment} />
     </PageWrapper>
