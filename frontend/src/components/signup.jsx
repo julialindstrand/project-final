@@ -58,58 +58,67 @@ export const SignUpForm = ({ setUser }) => {
   }
 
   return (
-    <Wrapper role="main" >
-      <FormWrapper rclassName="signup-form" onSubmit={handleSignUp}>
-        <h2>Sign up</h2>
+    <StyledBody>
+      <Wrapper role="main" >
+        <FormWrapper rclassName="signup-form" onSubmit={handleSignUp}>
+          <h2>Sign up</h2>
 
-        {errorMsg && <ErrorMsg>{errorMsg}</ErrorMsg>}
+          {errorMsg && <ErrorMsg>{errorMsg}</ErrorMsg>}
 
-        <StyledDiv className="login-inputs">
-          <StyledLabel>
-            Name
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </StyledLabel>
+          <StyledDiv className="login-inputs">
+            <StyledLabel>
+              Name
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </StyledLabel>
 
-          <StyledLabel>
-            Email
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </StyledLabel>
+            <StyledLabel>
+              Email
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </StyledLabel>
 
-          <StyledLabel>
-            Password
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </StyledLabel>
-        </StyledDiv>
+            <StyledLabel>
+              Password
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </StyledLabel>
+          </StyledDiv>
 
-        <StyledBtn type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Creating…" : "Sign up"}
-        </StyledBtn>
-      </FormWrapper>
-    </Wrapper>
+          <StyledBtn type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Creating…" : "Sign up"}
+          </StyledBtn>
+        </FormWrapper>
+      </Wrapper>
+    </StyledBody>
   )
 }
 
 export default SignUpForm
 
+const StyledBody = styled.body`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
 const Wrapper = styled.main`
+  width: 320px;
   padding: 10px;
   border: 1px solid #265237;
   border-radius: 24px;

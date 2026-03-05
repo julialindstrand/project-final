@@ -36,42 +36,51 @@ export const LoginForm = ({ login }) => {
   }
 
   return (
-    <Wrapper role="main">
-      <FormWrapper className="login-form" onSubmit={handleSubmit}>
-        <h2>Log in</h2>
+    <StyledBody>
+      <Wrapper role="main">
+        <FormWrapper className="login-form" onSubmit={handleSubmit}>
+          <h2>Log in</h2>
 
-        <StyledDiv className="login-inputs">
-          <StyledLabel>
-            Email
-            <input
-              onChange={handleChange}
-              type="email"
-              name="email"
-              value={formData.email}
-            />
-          </StyledLabel>
-          <StyledLabel>
-            Password
-            <input
-              onChange={handleChange}
-              type="password"
-              name="password"
-              value={formData.password}
-            />
-          </StyledLabel>
-        </StyledDiv>
+          <StyledDiv className="login-inputs">
+            <StyledLabel>
+              Email
+              <input
+                onChange={handleChange}
+                type="email"
+                name="email"
+                value={formData.email}
+              />
+            </StyledLabel>
+            <StyledLabel>
+              Password
+              <input
+                onChange={handleChange}
+                type="password"
+                name="password"
+                value={formData.password}
+              />
+            </StyledLabel>
+          </StyledDiv>
 
-        {error && <p style={{ color: "black" }}>{error}</p>}
+          {error && <p style={{ color: "black" }}>{error}</p>}
 
-        <StyledBtn type="submit">Log In</StyledBtn>
-      </FormWrapper>
-    </Wrapper>
+          <StyledBtn type="submit">Log In</StyledBtn>
+        </FormWrapper>
+      </Wrapper>
+    </StyledBody>
   )
 }
 
 export default LoginForm
 
+const StyledBody = styled.body`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
 const Wrapper = styled.main`
+  width: 320px;
   padding: 10px;
   border: 1px solid #265237;
   border-radius: 24px;

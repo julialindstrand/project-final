@@ -35,43 +35,45 @@ export const Dashboard = ({
         )}
         <CatForm onSuccess={handleNewCat} />
       </TopPart>
-      <SectionTitle>All Cats</SectionTitle>
-      <FiltersWrapper>
-        <label>
-          Location:
-          <select
-            value={locationFilter}
-            onChange={e => setLocationFilter(e.target.value)}
-          >
-            <option value="">All</option>
-            <option value="adopted">Adopted</option>
-            <option value="animalshelter">Animal Shelter</option>
-            <option value="fosterhome">Foster Home</option>
-            <option value="outdoor">Outdoor</option>
-          </select>
-        </label>
+      <FilterPart>
+        <SectionTitle>All Cats</SectionTitle>
+        <FiltersWrapper>
+          <label>
+            Location:
+            <select
+              value={locationFilter}
+              onChange={e => setLocationFilter(e.target.value)}
+            >
+              <option value="">All</option>
+              <option value="adopted">Adopted</option>
+              <option value="animalshelter">Animal Shelter</option>
+              <option value="fosterhome">Foster Home</option>
+              <option value="outdoor">Outdoor</option>
+            </select>
+          </label>
 
-        <label>
-          Gender:
-          <select
-            value={genderFilter}
-            onChange={e => setGenderFilter(e.target.value)}
-          >
-            <option value="">All</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        </label>
-      </FiltersWrapper>
-      <CatList
-        externalCats={cats}
-        currentUser={user}
-        locationFilter={locationFilter}
-        genderFilter={genderFilter}
-        onCreateComment={onCreateComment}
-        onEdit={onEdit}
-        onDelete={onDelete}
-        onDeleteComment={onDeleteComment} />
+          <label>
+            Gender:
+            <select
+              value={genderFilter}
+              onChange={e => setGenderFilter(e.target.value)}
+            >
+              <option value="">All</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </label>
+        </FiltersWrapper>
+        <CatList
+          externalCats={cats}
+          currentUser={user}
+          locationFilter={locationFilter}
+          genderFilter={genderFilter}
+          onCreateComment={onCreateComment}
+          onEdit={onEdit}
+          onDelete={onDelete}
+          onDeleteComment={onDeleteComment} />
+      </FilterPart>
     </PageWrapper>
   )
 }
@@ -116,6 +118,11 @@ const StyledBtn = styled.button`
     cursor: pointer;
   }
 `
+
+const FilterPart = styled.div`
+  display: flex;
+  flex-direction: column;
+  `
 
 const FiltersWrapper = styled.div`
   display: flex;

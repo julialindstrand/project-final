@@ -25,6 +25,7 @@ const storage = new CloudinaryStorage({
       width: 500,
       height: 500,
       crop: "limit",
+      effect: "background_removal:fineedges"
     }],
   },
 })

@@ -98,7 +98,7 @@ export const CatForm = ({ onSuccess }) => {
               />
             )}
           </ImageBox>
-          <StyledRow>
+          <div>
             <input
               type="file"
               id="picture"
@@ -107,7 +107,7 @@ export const CatForm = ({ onSuccess }) => {
               onChange={handleChange}
               aria-label="picture"
             />
-          </StyledRow>
+          </div>
         </div>
 
         {/* Name */}
@@ -176,6 +176,7 @@ const Wrapper = styled.main`
   margin-bottom: 50px;
   background-color: #2B5C3F;
   max-width: 345px;
+  box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
 `
 
 const FormWrapper = styled.form`
@@ -186,11 +187,11 @@ const FormWrapper = styled.form`
   `
 
 const StyledName = styled.input`
-  width: 70%;
+  width: 68.5%;
 `
 
 const StyledSelect = styled.select`
-  width: 50%;
+  width: 70%;
   text-align: center;
 `
 

@@ -67,8 +67,8 @@ export const CatCard = ({ cat, currentUser, onEdit, onCreateComment, onDelete, o
           <ImgWrapper>
             <CatImg src={cat.imageUrl} alt={cat.name} />
           </ImgWrapper>
-          <div>
-            <label htmlFor="name">Name</label>
+          <Info>
+            <Name htmlFor="name">Name</Name>
             <input
               type="text"
               id="name"
@@ -76,9 +76,9 @@ export const CatCard = ({ cat, currentUser, onEdit, onCreateComment, onDelete, o
               value={formData.name}
               onChange={handleNameChange}
             />
-          </div>
+          </Info>
           {/* Gender */}
-          <div>
+          <Info>
             <label htmlFor="gender">Gender</label>
             <select
               id="gender"
@@ -89,9 +89,9 @@ export const CatCard = ({ cat, currentUser, onEdit, onCreateComment, onDelete, o
               <option value="male">Male</option>
               <option value="female">Female</option>
             </select>
-          </div>
+          </Info>
           {/* Location */}
-          <div>
+          <Info>
             <label htmlFor="location">Location</label>
 
             <select
@@ -106,7 +106,7 @@ export const CatCard = ({ cat, currentUser, onEdit, onCreateComment, onDelete, o
               <option value="outdoor">Outdoor</option>
 
             </select>
-          </div>
+          </Info>
 
           <EditMode>
             <OtherBtn onClick={handleSave}>💾</OtherBtn>
@@ -192,6 +192,11 @@ const CardWrapper = styled.article`
   display: flex;
   flex-direction: column;
   background: #F5F5F5;
+  box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+  
+  &:hover {
+    transform: scale(1.01);
+  }
 `
 
 const ImgWrapper = styled.div`
@@ -235,10 +240,10 @@ const Meta = styled.div`
 
 const EditMode = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 8px;
-  align-items: center;
-  margin-left: 3px;
+  justify-content: center;
+  margin-bottom: 8px;
   `
 
 const OtherBtn = styled.button`
@@ -330,7 +335,7 @@ const CommentBtn = styled.button`
   padding: 6px 12px;
   
   &:hover {
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);  padding: 4px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);    padding: 6px 12px;
     cursor: pointer;
   }
 `
