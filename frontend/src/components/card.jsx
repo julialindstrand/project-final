@@ -146,7 +146,7 @@ export const CatCard = ({ cat, currentUser, onEdit, onCreateComment, onDelete, o
               {error && <ErrorMsg>{error}</ErrorMsg>}
 
               <CommentList>
-                {cat.comments.map((c) => (
+                {(cat.comments ?? []).map((c) => (
                   <CommentItem key={c._id}>
                     <CommentInfo>
                       <div>
@@ -289,7 +289,7 @@ const CommentList = styled.ul`
 
 const CommentItem = styled.li`
   margin-bottom: 10px;
-  background: #f9f9f9;
+  background: #f5f5f5;
   padding: 6px 8px;
   width: 90%;
   `
