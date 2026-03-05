@@ -185,14 +185,15 @@ export const CatCard = ({ cat, currentUser, onEdit, onCreateComment, onDelete, o
 
 const CardWrapper = styled.article`
   max-width: 365px;
+  min-width: 345px;
   border: 2px solid #3f895c;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
-  /* margin: 3px 0px; */
-  `
+  background: white;
+`
 
 const ImgWrapper = styled.div`
   width: 100%;
@@ -215,10 +216,6 @@ const Info = styled.div`
   justify-content: space-between;
   padding: 12px 16px;
   `
-
-// const Select = styled.select`
-//   height: 40px;
-// `
 
 const EditDelete = styled.div`
   display: flex;

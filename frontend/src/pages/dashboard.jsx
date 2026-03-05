@@ -21,14 +21,16 @@ export const Dashboard = ({
 
   return (
     <PageWrapper role="main">
-      <Header role="banner">Cat. Archive. Tracking. System.</Header>
-      {user && (
-        <UserBar>
-          <span>Welcome, {user.name}!</span>
-          <StyledBtn onClick={logout}>Logout</StyledBtn>
-        </UserBar>
-      )}
-      <CatForm onSuccess={handleNewCat} />
+      <TopPart>
+        <Header role="banner">Cat. Archive. Tracking. System.</Header>
+        {user && (
+          <UserBar>
+            <SectionTitle>Welcome, {user.name}!</SectionTitle>
+            <StyledBtn onClick={logout}>Logout</StyledBtn>
+          </UserBar>
+        )}
+        <CatForm onSuccess={handleNewCat} />
+      </TopPart>
       <SectionTitle>All Cats</SectionTitle>
       <CatList
         externalCats={cats}
@@ -43,10 +45,16 @@ export const Dashboard = ({
 
 
 const PageWrapper = styled.main`
-  max-width: 345px;
-  margin: 0 auto;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
+
+const TopPart = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  `
 
 const Header = styled.h1`
   text-align: center;
@@ -60,8 +68,8 @@ const SectionTitle = styled.h2`
 
 const UserBar = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  flex-direction: column;
+  margin-bottom: 30px;
 `
 
 const StyledBtn = styled.button`

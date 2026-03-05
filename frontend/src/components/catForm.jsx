@@ -1,7 +1,7 @@
 import { useState } from "react"
 import styled from "styled-components"
 import { API_URL } from "../api"
-import placeholder from "../assets/placeholder.png"
+import placeholder2 from "../assets/placeholder2.png"
 
 export const CatForm = ({ onSuccess }) => {
   const [formData, setFormData] = useState({
@@ -13,7 +13,7 @@ export const CatForm = ({ onSuccess }) => {
 
   const [errorMsg, setErrorMsg] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [previewUrl, setPreviewUrl] = useState(placeholder)
+  const [previewUrl, setPreviewUrl] = useState(placeholder2)
 
   const handleChange = (e) => {
     const { name, value, files } = e.target
@@ -25,7 +25,7 @@ export const CatForm = ({ onSuccess }) => {
         setPreviewUrl(URL.createObjectURL(file))
       } else {
         setFormData((prev) => ({ ...prev, picture: null }))
-        setPreviewUrl(placeholder)
+        setPreviewUrl(placeholder2)
       }
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }))
@@ -70,7 +70,7 @@ export const CatForm = ({ onSuccess }) => {
       }
 
       setFormData(setFormData)
-      setPreviewUrl(placeholder)
+      setPreviewUrl(placeholder2)
 
     } catch (error) {
       console.error("Submit error:", error)
@@ -204,22 +204,24 @@ const ImageBox = styled.div`
   align-items: center;
   justify-content: center;
   overflow: hidden;
-`
+  margin-bottom: 15px;
+  `
 
 const PreviewImg = styled.img`
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
   width: "100%";
-  margin-top: 8;
   border-radius: 4;
-`
+  `
 
 const StyledBtn = styled.button`
   background-color: #b0cebd;
   border: 2px solid #3f895c;
   border-radius: 8px;
   padding: 4px;
+  display: block;
+  margin-left: auto;
   
   &:hover {
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);  padding: 4px;

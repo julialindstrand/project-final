@@ -11,10 +11,8 @@ export const GlobalStyle = createGlobalStyle`
     display: flex;
     flex-direction: column;
     margin: auto;
-    width: 70%;
-    max-width: 500px;
     padding: 30px;
 
-    /* background-color: #3d3a37; */
+    background-color: #e4ede2;
 }
 `
