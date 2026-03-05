@@ -88,7 +88,6 @@ export const CatCard = ({ cat, currentUser, onEdit, onCreateComment, onDelete, o
             >
               <option value="male">Male</option>
               <option value="female">Female</option>
-              <option value="other">Other</option>
             </select>
           </div>
           {/* Location */}
@@ -192,7 +191,7 @@ const CardWrapper = styled.article`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
-  background: white;
+  background: #F5F5F5;
 `
 
 const ImgWrapper = styled.div`

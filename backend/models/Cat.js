@@ -6,7 +6,7 @@ const catSchema = new mongoose.Schema(
     name: { type: String, required: true },
     gender: {
       type: String,
-      enum: ["male", "female", "other"],
+      enum: ["male", "female"],
       required: true,
     },
     imageUrl: { type: String, required: true },

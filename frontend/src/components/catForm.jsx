@@ -69,7 +69,12 @@ export const CatForm = ({ onSuccess }) => {
         onSuccess(newCat)
       }
 
-      setFormData(setFormData)
+      setFormData({
+        picture: null,
+        name: "",
+        gender: "",
+        location: "",
+      })
       setPreviewUrl(placeholder2)
 
     } catch (error) {
@@ -131,7 +136,6 @@ export const CatForm = ({ onSuccess }) => {
             <option value="">Select gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
-            <option value="other">Other</option>
           </StyledSelect>
         </StyledRow>
 
