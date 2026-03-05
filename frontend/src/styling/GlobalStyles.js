@@ -15,6 +15,6 @@ export const GlobalStyle = createGlobalStyle`
     max-width: 500px;
     padding: 30px;
 
-    background-color: #3d3a37;
+    /* background-color: #3d3a37; */
 }
 `

@@ -101,9 +101,11 @@ export const CatCard = ({ cat, currentUser, onEdit, onCreateComment, onDelete, o
               value={formData.location}
               onChange={handleLocationChange}
             >
-              <option value="fosterhome">Foster Home</option>
+              <option value="adopted">Adopted</option>
               <option value="animalshelter">Animal Shelter</option>
+              <option value="fosterhome">Foster Home</option>
               <option value="outdoor">Outdoor</option>
+
             </select>
           </div>
 
@@ -122,16 +124,18 @@ export const CatCard = ({ cat, currentUser, onEdit, onCreateComment, onDelete, o
 
           <Info>
             <Name>{cat.name}</Name>
-            <OtherBtn onClick={() => setIsEditing(true)}>✏️</OtherBtn>
-
-            <Meta>
-              <Tag>{cat.gender}</Tag>
-              <Tag>{cat.location}</Tag>
-            </Meta>
+            <EditDelete>
+              <OtherBtn onClick={() => setIsEditing(true)}>✏️</OtherBtn>
+              <OtherBtn onClick={handleDelete}>
+                🗑️
+              </OtherBtn>
+            </EditDelete>
           </Info>
-          <button onClick={handleDelete}>
-            🗑️
-          </button>
+
+          <Meta>
+            <Tag>{cat.gender}</Tag>
+            <Tag>{cat.location}</Tag>
+          </Meta>
 
           {/* Expand / collapse button */}
           <ToggleBtn onClick={toggleExpand}>
@@ -145,11 +149,15 @@ export const CatCard = ({ cat, currentUser, onEdit, onCreateComment, onDelete, o
               <CommentList>
                 {cat.comments.map((c) => (
                   <CommentItem key={c._id}>
-                    <Author>{c.userName}</Author>
-                    <Timestamp>{new Date(c.createdAt).toLocaleString()}</Timestamp>
-                    <button onClick={() => handleDeleteComment(catId, c._id)}>
-                      🗑️
-                    </button>
+                    <CommentInfo>
+                      <div>
+                        <Author>{c.userName}</Author>
+                        <Timestamp>{new Date(c.createdAt).toLocaleString()}</Timestamp>
+                      </div>
+                      <OtherBtn onClick={() => handleDeleteComment(catId, c._id)}>
+                        🗑️
+                      </OtherBtn>
+                    </CommentInfo>
                     <Text>{c.text}</Text>
                   </CommentItem>
                 ))}
@@ -176,44 +184,58 @@ export const CatCard = ({ cat, currentUser, onEdit, onCreateComment, onDelete, o
 }
 
 const CardWrapper = styled.article`
-      width: 280px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      overflow: hidden;
-      background: #fff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-      display: flex;
-      flex-direction: column;
-      `
+  max-width: 365px;
+  border: 2px solid #3f895c;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  /* margin: 3px 0px; */
+  `
 
 const ImgWrapper = styled.div`
-      width: 100%;
-      height: 200px;
-      background: #f5f5f5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      `
+  width: 100%;
+  height: 200px;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  `
 
 const CatImg = styled.img`
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: cover;
-      `
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  `
 
 const Info = styled.div`
-      padding: 12px 16px;
-      `
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 12px 16px;
+  `
+
+// const Select = styled.select`
+//   height: 40px;
+// `
+
+const EditDelete = styled.div`
+  display: flex;
+  flex-direction: row;
+`
 
 const Name = styled.h3`
-      margin: 0 0 8px;
-      font-size: 1.1rem;
-      `
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  `
 
 const Meta = styled.div`
-      display: flex;
-      gap: 6px;
-      `
+  display: flex;
+  flex-direction: row;
+  margin: 5px 15px;
+  gap: 5px;
+  `
 
 const EditMode = styled.div`
   display: flex;
@@ -237,75 +259,86 @@ const OtherBtn = styled.button`
 `
 
 const Tag = styled.span`
-      background: #e0f0ff;
-      color: #0066cc;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.85rem;
-      `
+  background: #d4ded7;
+  /* color: #000000; */
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  `
 
 const ToggleBtn = styled.button`
-      background: none;
-      border: none;
-      color: #0066cc;
-      padding: 8px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      text-align: left;
-      &:hover {
-      text-decoration: underline;
+  background: none;
+  border: none;
+  color: #000000;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-align: left;
+  
+  &:hover {
+  text-decoration: underline;
   }
-      `
+  `
 
 const ExpandedSection = styled.div`
-      padding: 12px 16px;
-      border-top: 1px solid #eee;
-      `
+  padding: 12px 16px;
+  border-top: 1px solid #eee;
+  `
 
 const CommentList = styled.ul`
-      list-style: none;
-      padding: 0;
-      margin: 0 0 12px;
-      `
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+  `
 
 const CommentItem = styled.li`
-      margin-bottom: 10px;
-      background: #f9f9f9;
-      padding: 6px 8px;
-      border-radius: 4px;
-      `
+  margin-bottom: 10px;
+  background: #f9f9f9;
+  padding: 6px 8px;
+  width: 90%;
+  `
+
+const CommentInfo = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`
 
 const Author = styled.span`
-      font-weight: bold;
-      margin-right: 6px;
-      `
+  color: #3f895c;
+  font-weight: bold;
+  margin-right: 6px;
+  `
 
 const Timestamp = styled.span`
-      color: #666;
-      font-size: 0.8rem;
-      `
+  color: #666;
+  font-size: 0.8rem;
+  `
 
 const Text = styled.p`
-      margin: 4px 0 0;
-      `
+  margin: 4px 0 0;
+ `
 
 const CommentInput = styled.textarea`
-      width: 100%;
-      min-height: 60px;
-      resize: vertical;
-      margin-bottom: 6px;
-      padding: 6px;
-      `
+  width: 92%;
+  min-height: 60px;
+  resize: vertical;
+  margin-bottom: 6px;
+  padding: 6px;
+  `
 
 const CommentBtn = styled.button`
-      background: #0077cc;
-      color: #fff;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-      `
+  background-color: #b0cebd;
+  border: 2px solid #3f895c;
+  border-radius: 8px;
+  padding: 6px 12px;
+  
+  &:hover {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);  padding: 4px;
+    cursor: pointer;
+  }
+`
 
 const ErrorMsg = styled.p`
-      color: #c00;
-      `
+  color: #c00;
+  `

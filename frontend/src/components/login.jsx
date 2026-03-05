@@ -36,29 +36,29 @@ export const LoginForm = ({ login }) => {
   }
 
   return (
-    <Wrapper>
+    <Wrapper role="main">
       <FormWrapper className="login-form" onSubmit={handleSubmit}>
         <h2>Log in</h2>
 
         <StyledDiv className="login-inputs">
-          <Styledlabel>
+          <StyledLabel>
             Email
-            <StyledInput
+            <input
               onChange={handleChange}
               type="email"
               name="email"
               value={formData.email}
             />
-          </Styledlabel>
-          <Styledlabel>
+          </StyledLabel>
+          <StyledLabel>
             Password
-            <StyledInput
+            <input
               onChange={handleChange}
               type="password"
               name="password"
               value={formData.password}
             />
-          </Styledlabel>
+          </StyledLabel>
         </StyledDiv>
 
         {error && <p style={{ color: "black" }}>{error}</p>}
@@ -71,7 +71,7 @@ export const LoginForm = ({ login }) => {
 
 export default LoginForm
 
-const Wrapper = styled.div`
+const Wrapper = styled.main`
   padding: 10px;
   border: 1px solid #265237;
   border-radius: 24px;
@@ -81,7 +81,7 @@ const Wrapper = styled.div`
 `
 
 const FormWrapper = styled.form`
-  background: #47785A;
+  background: #d4ded7;
   border: 1px solid #417354;
   border-radius: 16px;
   padding: 20px;
@@ -93,23 +93,19 @@ const StyledDiv = styled.div`
   margin: 5px 0px;
 `
 
-const Styledlabel = styled.label`
+const StyledLabel = styled.label`
   display: flex;
   flex-direction: column;
-`
-
-const StyledInput = styled.input`
-  /* background-color: #d4f9e4; */
 `
 
 const StyledBtn = styled.button`
   background-color: #b0cebd;
   border: 2px solid #3f895c;
   border-radius: 8px;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);  padding: 4px;
-
-    &:hover {
-    border: 2px solid #142d1e;
+  padding: 4px;
+  
+  &:hover {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);  padding: 4px;
     cursor: pointer;
   }
 `

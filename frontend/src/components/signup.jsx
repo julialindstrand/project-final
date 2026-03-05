@@ -58,81 +58,92 @@ export const SignUpForm = ({ setUser }) => {
   }
 
   return (
-    <FormWrapper className="signup-form" onSubmit={handleSignUp}>
-      <h2>Sign up</h2>
+    <Wrapper role="main" >
+      <FormWrapper rclassName="signup-form" onSubmit={handleSignUp}>
+        <h2>Sign up</h2>
 
-      {errorMsg && <ErrorMsg>{errorMsg}</ErrorMsg>}
+        {errorMsg && <ErrorMsg>{errorMsg}</ErrorMsg>}
 
-      <StyledDiv className="login-inputs">
-        <StyledLabel>
-          Name
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </StyledLabel>
+        <StyledDiv className="login-inputs">
+          <StyledLabel>
+            Name
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </StyledLabel>
 
-        <StyledLabel>
-          Email
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </StyledLabel>
+          <StyledLabel>
+            Email
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </StyledLabel>
 
-        <StyledLabel>
-          Password
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </StyledLabel>
-      </StyledDiv>
+          <StyledLabel>
+            Password
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </StyledLabel>
+        </StyledDiv>
 
-      <StyledBtn type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Creating…" : "Sign up"}
-      </StyledBtn>
-    </FormWrapper>
+        <StyledBtn type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Creating…" : "Sign up"}
+        </StyledBtn>
+      </FormWrapper>
+    </Wrapper>
   )
 }
 
 export default SignUpForm
 
-const FormWrapper = styled.form`
-  background: #f2f0f0;
-  border: 1px solid black;
-  box-shadow: 10px 10px 0 black;
-  padding: 20px;
+const Wrapper = styled.main`
+  padding: 10px;
+  border: 1px solid #265237;
+  border-radius: 24px;
+  box-shadow: 0 0 0.25rem 0.5rem rgba(0, 0, 0, .15);
   margin-bottom: 50px;
+  background-color: #2B5C3F;
+`
+
+const FormWrapper = styled.form`
+  background: #d4ded7;
+  border: 1px solid #417354;
+  border-radius: 16px;
+  padding: 20px;
 `
 
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 5px 0;
+  margin: 5px 0px;
 `
 
 const StyledLabel = styled.label`
   display: flex;
   flex-direction: column;
-  margin-bottom: 12px;
 `
 
 const StyledBtn = styled.button`
-  background-color: white;
-  border: 2px solid #c9c8c8;
+  background-color: #b0cebd;
+  border: 2px solid #3f895c;
+  border-radius: 8px;
   padding: 4px;
+  
   &:hover {
-    border: 2px solid black;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);  padding: 4px;
     cursor: pointer;
   }
 `

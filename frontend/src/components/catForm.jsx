@@ -1,7 +1,7 @@
 import { useState } from "react"
 import styled from "styled-components"
 import { API_URL } from "../api"
-import placeholderImg from "../assets/placeholderImg.jpg"
+import placeholder from "../assets/placeholder.png"
 
 export const CatForm = ({ onSuccess }) => {
   const [formData, setFormData] = useState({
@@ -13,7 +13,7 @@ export const CatForm = ({ onSuccess }) => {
 
   const [errorMsg, setErrorMsg] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [previewUrl, setPreviewUrl] = useState(placeholderImg)
+  const [previewUrl, setPreviewUrl] = useState(placeholder)
 
   const handleChange = (e) => {
     const { name, value, files } = e.target
@@ -25,7 +25,7 @@ export const CatForm = ({ onSuccess }) => {
         setPreviewUrl(URL.createObjectURL(file))
       } else {
         setFormData((prev) => ({ ...prev, picture: null }))
-        setPreviewUrl(placeholderImg)
+        setPreviewUrl(placeholder)
       }
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }))
@@ -69,6 +69,9 @@ export const CatForm = ({ onSuccess }) => {
         onSuccess(newCat)
       }
 
+      setFormData(setFormData)
+      setPreviewUrl(placeholder)
+
     } catch (error) {
       console.error("Submit error:", error)
       setErrorMsg("Could not save cat information")
@@ -78,10 +81,10 @@ export const CatForm = ({ onSuccess }) => {
   }
 
   return (
-    <FormWrapper>
-      <StyledForm onSubmit={handleSubmit}>
+    <Wrapper>
+      <FormWrapper onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="picture"></label>
+          <label for="picture" htmlFor="picture"></label>
           <ImageBox>
             {previewUrl && (
               <PreviewImg
@@ -90,81 +93,108 @@ export const CatForm = ({ onSuccess }) => {
               />
             )}
           </ImageBox>
-          <input
-            type="file"
-            id="picture"
-            name="picture"
-            accept="image/*"
-            onChange={handleChange}
-          />
+          <StyledRow>
+            <input
+              type="file"
+              id="picture"
+              name="picture"
+              accept="image/*"
+              onChange={handleChange}
+              aria-label="picture"
+            />
+          </StyledRow>
         </div>
 
         {/* Name */}
-        <div>
+        <StyledRow>
           <label htmlFor="name">Name</label>
-          <input
+          <StyledName
             type="text"
             id="name"
             name="name"
             value={formData.name}
             onChange={handleChange}
+            aria-label="name"
           />
-        </div>
+        </StyledRow>
 
         {/* Gender */}
-        <div>
+        <StyledRow>
           <label htmlFor="gender">Gender</label>
-          <select
+          <StyledSelect
             id="gender"
             name="gender"
             value={formData.gender}
             onChange={handleChange}
+            aria-label="gender"
           >
             <option value="">Select gender</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
             <option value="other">Other</option>
-          </select>
-        </div>
+          </StyledSelect>
+        </StyledRow>
 
         {/* Location */}
-        <div>
+        <StyledRow>
           <label htmlFor="location">Location</label>
 
-          <select
+          <StyledSelect
             id="location"
             name="location"
             value={formData.location}
             onChange={handleChange}
+            aria-label="location"
           >
             <option value="">Select location</option>
-            <option value="fosterhome">Foster Home</option>
+            <option value="adopted">Adopted</option>
             <option value="animalshelter">Animal Shelter</option>
+            <option value="fosterhome">Foster Home</option>
             <option value="outdoor">Outdoor</option>
-          </select>
-        </div>
+          </StyledSelect>
+        </StyledRow>
 
         {/* Submit / Feedback */}
         {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
-        <button type="submit" disabled={isSubmitting}>
+        <StyledBtn type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Saving…" : "Add Cat"}
-        </button>
-      </StyledForm>
-    </FormWrapper>
+        </StyledBtn>
+      </FormWrapper>
+    </Wrapper>
   )
 }
 
-const FormWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center; //??
-  border: black solid 2px;
-  border-radius: 15px;
+const Wrapper = styled.main`
+  padding: 10px;
+  border: 1px solid #265237;
+  border-radius: 24px;
+  /* box-shadow: 0 0 0.25rem 0.5rem rgba(0, 0, 0, .15); */
+  margin-bottom: 50px;
+  background-color: #2B5C3F;
+  max-width: 345px;
 `
 
-const StyledForm = styled.form`
-  max-width: 400px;
-  margin: 10px;
+const FormWrapper = styled.form`
+  background: #d4ded7;
+  border: 1px solid #417354;
+  border-radius: 16px;
+  padding: 20px;
+  `
+
+const StyledName = styled.input`
+  width: 70%;
+`
+
+const StyledSelect = styled.select`
+  width: 50%;
+  text-align: center;
+`
+
+const StyledRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 3px 0px;
 `
 
 const ImageBox = styled.div`
@@ -183,4 +213,16 @@ const PreviewImg = styled.img`
   width: "100%";
   margin-top: 8;
   border-radius: 4;
+`
+
+const StyledBtn = styled.button`
+  background-color: #b0cebd;
+  border: 2px solid #3f895c;
+  border-radius: 8px;
+  padding: 4px;
+  
+  &:hover {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);  padding: 4px;
+    cursor: pointer;
+  }
 `

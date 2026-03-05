@@ -227,7 +227,7 @@ const ToggleWrapper = styled.div`
 const ToggleBtn = styled.button`
   background: none;
   border: none;
-  color: #fcfcfc;
+  color: #000000;
   cursor: pointer;
   font-size: 0.95rem;
   &:hover {

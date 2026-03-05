@@ -20,12 +20,12 @@ export const Dashboard = ({
   }, [])
 
   return (
-    <PageWrapper>
-      <Header>Cat. Archive. Tracking. System.</Header>
+    <PageWrapper role="main">
+      <Header role="banner">Cat. Archive. Tracking. System.</Header>
       {user && (
         <UserBar>
           <span>Welcome, {user.name}!</span>
-          <button onClick={logout}>Logout</button>
+          <StyledBtn onClick={logout}>Logout</StyledBtn>
         </UserBar>
       )}
       <CatForm onSuccess={handleNewCat} />
@@ -43,7 +43,7 @@ export const Dashboard = ({
 
 
 const PageWrapper = styled.main`
-  max-width: 960px;
+  max-width: 345px;
   margin: 0 auto;
   padding: 20px;
 `
@@ -62,4 +62,16 @@ const UserBar = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+`
+
+const StyledBtn = styled.button`
+  background-color: #b0cebd;
+  border: 2px solid #3f895c;
+  border-radius: 8px;
+  padding: 4px;
+  
+  &:hover {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);  padding: 4px;
+    cursor: pointer;
+  }
 `
