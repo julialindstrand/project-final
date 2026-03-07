@@ -7,6 +7,7 @@ import ProtectedRoute from "./pages/start"
 import { Dashboard } from "./pages/dashboard"
 import { API_URL, fetchJson } from "./api"
 import styled from "styled-components"
+import AdminPanel from "./pages/adminpanel"
 
 export const App = () => {
   const navigate = useNavigate()
@@ -24,7 +25,6 @@ export const App = () => {
     if (!res.ok) throw new Error("Login failed")
 
     const { response } = await res.json()
-    console.log("login response:", response)
 
     if (response.token) {
       localStorage.setItem("token", response.token)
@@ -212,6 +212,7 @@ export const App = () => {
             }
           />
         </Route>
+        <Route path="/admin" element={<AdminPanel />} />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </>

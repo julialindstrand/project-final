@@ -2,8 +2,11 @@ import React, { useState } from "react"
 import styled from "styled-components"
 import { API_URL } from "../api"
 import { useNavigate } from "react-router-dom"
+import { useContext } from "react"
+import { AuthContext } from "./authenticate"
 
 export const SignUpForm = ({ setUser }) => {
+  const { login } = useContext(AuthContext)
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     name: "",
@@ -46,7 +49,9 @@ export const SignUpForm = ({ setUser }) => {
       const user = payload.response || payload
 
       // Store token & user
-      if (user.token) localStorage.setItem("token", user.token)
+      if (user.token) {
+        login(user.token)
+      } localStorage.setItem("token", user.token)
       localStorage.setItem("user", JSON.stringify(user))
 
       setUser(user);

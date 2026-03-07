@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import commentSchema from "./Comments"
+import commentSchema from "./Comments.js"
 
 const catSchema = new mongoose.Schema(
   {
@@ -11,9 +11,7 @@ const catSchema = new mongoose.Schema(
     },
     imageUrl: { type: String, required: true },
     location: { type: String, required: true },
-    comments: [commentSchema],
+    comments: [commentSchema], default: [],
   }, { timestamps: true })
 
-const Cat = mongoose.models.Cat || mongoose.model("Cat", catSchema)
-
-export default Cat
+export default mongoose.models.Cat || mongoose.model("Cat", catSchema)

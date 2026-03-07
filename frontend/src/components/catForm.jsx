@@ -172,7 +172,6 @@ const Wrapper = styled.main`
   padding: 10px;
   border: 1px solid #265237;
   border-radius: 24px;
-  /* box-shadow: 0 0 0.25rem 0.5rem rgba(0, 0, 0, .15); */
   margin-bottom: 50px;
   background-color: #2B5C3F;
   max-width: 345px;
@@ -192,6 +191,7 @@ const StyledName = styled.input`
 
 const StyledSelect = styled.select`
   width: 70%;
+  height: 25px;
   text-align: center;
 `
 

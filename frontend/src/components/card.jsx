@@ -184,7 +184,7 @@ export const CatCard = ({ cat, currentUser, onEdit, onCreateComment, onDelete, o
 
 const CardWrapper = styled.article`
   max-width: 365px;
-  min-width: 345px;
+  min-width: 320px;
   border: 2px solid #3f895c;
   border-radius: 8px;
   overflow: hidden;
