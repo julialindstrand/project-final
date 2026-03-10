@@ -36,7 +36,7 @@ router.post("/cats/:catId/comments", verifyToken, async (req, res) => {
 
     // New comment
     cat.comments.push({
-      userId: req.user.id,
+      userId: req.user._id,
       userName: req.user.name,
       text: text.trim(),
     })

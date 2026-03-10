@@ -1,13 +1,7 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import { API_URL } from "../api"
-import { useNavigate } from "react-router-dom"
-import { useContext } from "react"
-import { AuthContext } from "./authenticate"
 
-export const SignUpForm = ({ setUser }) => {
-  const { login } = useContext(AuthContext)
-  const navigate = useNavigate()
+export const SignUpForm = ({ onSuccess }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -22,11 +16,11 @@ export const SignUpForm = ({ setUser }) => {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSignUp = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (!formData.name || !formData.email || !formData.password) {
-      setErrorMsg("Name, email and password are required")
+      setErrorMsg("All fields are required")
       return
     }
 
@@ -34,43 +28,24 @@ export const SignUpForm = ({ setUser }) => {
     setErrorMsg("")
 
     try {
-      const res = await fetch(`${API_URL}/users/signup`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      })
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}))
-        throw new Error(err.message || `Status ${res.status}`)
-      }
-
-      const payload = await res.json()
-      const user = payload.response || payload
-
-      // Store token & user
-      if (user.token) {
-        login(user.token)
-      } localStorage.setItem("token", user.token)
-      localStorage.setItem("user", JSON.stringify(user))
-
-      setUser(user);
-      navigate("/dashboard")
+      await onSuccess(formData)
     } catch (err) {
-      console.error(err)
+      console.error("Signup error:", err)
       setErrorMsg(err.message)
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
   return (
     <StyledBody>
-      <Wrapper role="main" >
-        <FormWrapper rclassName="signup-form" onSubmit={handleSignUp}>
+      <Wrapper role="main">
+        <FormWrapper onSubmit={handleSubmit}>
           <h2>Sign up</h2>
 
           {errorMsg && <ErrorMsg>{errorMsg}</ErrorMsg>}
 
-          <StyledDiv className="login-inputs">
+          <StyledDiv>
             <StyledLabel>
               Name
               <input
@@ -111,12 +86,12 @@ export const SignUpForm = ({ setUser }) => {
         </FormWrapper>
       </Wrapper>
     </StyledBody>
-  )
-}
+  );
+};
 
 export default SignUpForm
 
-const StyledBody = styled.body`
+const StyledBody = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -127,9 +102,9 @@ const Wrapper = styled.main`
   padding: 10px;
   border: 1px solid #265237;
   border-radius: 24px;
-  box-shadow: 0 0 0.25rem 0.5rem rgba(0, 0, 0, .15);
+  box-shadow: 0 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
   margin-bottom: 50px;
-  background-color: #2B5C3F;
+  background-color: #2b5c3f;
 `
 
 const FormWrapper = styled.form`
@@ -142,7 +117,7 @@ const FormWrapper = styled.form`
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 5px 0px;
+  margin: 5px 0;
 `
 
 const StyledLabel = styled.label`
@@ -155,9 +130,9 @@ const StyledBtn = styled.button`
   border: 2px solid #3f895c;
   border-radius: 8px;
   padding: 4px;
-  
+
   &:hover {
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);  padding: 4px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
     cursor: pointer;
   }
 `

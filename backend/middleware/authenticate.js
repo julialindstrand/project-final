@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken"
 
-function authenticate(req, res, next) {
-  const authHeader = req.headers.authorization;
+export default function authenticate(req, res, next) {
+  const authHeader = req.headers.authorization
   if (!authHeader?.startsWith('Bearer '))
     return res.status(401).json({ msg: 'Missing token' })
 
@@ -14,5 +14,3 @@ function authenticate(req, res, next) {
     return res.status(401).json({ msg: 'Invalid token' })
   }
 }
-
-export default authenticate

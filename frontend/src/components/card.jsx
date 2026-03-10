@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import { API_URL, fetchJson } from "../api"
 
 export const CatCard = ({ cat, currentUser, onEdit, onCreateComment, onDelete, onDeleteComment }) => {
   const catId = cat._id

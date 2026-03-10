@@ -4,11 +4,9 @@ const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, enum: ['admin', 'editor', 'viewer'], default: 'viewer' },
-  token: {
-    type: String,
-    default: () => crypto.randomBytes(128).toString("hex"),
-  },
-})
+  role: { type: String, enum: ["admin", "editor", "viewer"], default: "viewer" },
+}, { timestamps: true })
 
-export const User = mongoose.model('User', UserSchema)
+const User = mongoose.models.User || mongoose.model("User", UserSchema)
+
+export default User

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import styled from "styled-components"
-import { API_URL } from "../api"
+import { API_URL } from "../api/api"
 import placeholder2 from "../assets/placeholder2.png"
 
 export const CatForm = ({ onSuccess }) => {
@@ -84,12 +84,11 @@ export const CatForm = ({ onSuccess }) => {
       setIsSubmitting(false)
     }
   }
-
   return (
     <Wrapper>
       <FormWrapper onSubmit={handleSubmit}>
         <div>
-          <label for="picture" htmlFor="picture"></label>
+          <label htmlFor="picture"></label>
           <ImageBox>
             {previewUrl && (
               <PreviewImg
@@ -167,6 +166,9 @@ export const CatForm = ({ onSuccess }) => {
     </Wrapper>
   )
 }
+
+export default CatForm
+
 
 const Wrapper = styled.main`
   padding: 10px;

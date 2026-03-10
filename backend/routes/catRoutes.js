@@ -6,7 +6,7 @@ import cloudinaryFramework from "cloudinary"
 import Cat from "../models/Cat"
 import { verifyToken } from "../models/auth"
 import authenticate from "../middleware/authenticate"
-import { authorize } from "../middleware/authorize"
+import authorize from "../middleware/authorize"
 
 
 dotenv.config()
@@ -50,7 +50,7 @@ router.get("/cats", async (req, res) => {
 
 // One cat
 router.get("/cats/:id", async (req, res) => {
-  const id = req.params.id
+  const id = req.params._id
   try {
     const cat = await Cat.findById(id)
     res.json(cat)
@@ -112,7 +112,7 @@ router.put("/cats/:id", authenticate, authorize('admin', 'editor'), verifyToken,
 
 // Delete
 router.delete("/cats/:id", authenticate, authorize('admin', 'editor'), async (req, res) => {
-  const id = req.params.id
+  const id = req.params._id
   try {
     const cat = await Cat.findById(id)
 

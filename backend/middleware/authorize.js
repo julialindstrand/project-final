@@ -1,4 +1,4 @@
-export function authorize(...allowedRoles) {
+export default function authorize(...allowedRoles) {
   return (req, res, next) => {
     if (!req.user) {
       return res.status(401).json({ msg: "Unauthenticated" })

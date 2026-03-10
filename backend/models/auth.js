@@ -1,5 +1,6 @@
-import { authenticate } from "../middleware/authenticate.js"
-import { User } from "../models/User.js"
+import authenticate from "../middleware/authenticate.js"
+import authorize from "../middleware/authorize.js"
+import User from "../models/User.js"
 
 export const verifyToken = async (req, res, next) => {
   const authHeader = req.headers.authorization

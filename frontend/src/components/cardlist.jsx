@@ -1,34 +1,49 @@
 import styled from "styled-components"
 import { CatCard } from "./card"
+export const CatList = ({
+  externalCats,
+  currentUser,
+  locationFilter,
+  genderFilter,
+  onCreateComment,
+  onEdit,
+  onDelete,
+  onDeleteComment,
+}) => {
+  const validCats = (externalCats || []).filter((cat) => {
+    return cat && (cat._id || cat.id)
+  })
 
-export const CatList = ({ externalCats, currentUser, onEdit, locationFilter = "", genderFilter = "", onCreateComment, onDelete, onDeleteComment }) => {
-
-  const filteredCats = externalCats.filter(cat => {
+  // Apply location/gender filters
+  const filteredCats = validCats.filter((cat) => {
     const matchesLocation =
-      locationFilter === "" || cat.location === locationFilter
-    const matchesGender =
-      genderFilter === "" || cat.gender === genderFilter
+      !locationFilter || cat.location === locationFilter
+    const matchesGender = !genderFilter || cat.gender === genderFilter
     return matchesLocation && matchesGender
   })
 
+  if (filteredCats.length === 0) {
+    return <p>No cats found matching your filters.</p>
+  }
+
   return (
     <Grid>
-      {filteredCats.length === 0 ? (
-        <EmptyMessage>No cats match the selected filters</EmptyMessage>
-      ) : filteredCats.map(cat => (
+      {filteredCats.map((cat) => (
         <CatCard
-          key={cat._id}
+          key={cat._id || cat.id}
           cat={cat}
           currentUser={currentUser}
-          onCreateComment={onCreateComment}
           onEdit={onEdit}
           onDelete={onDelete}
+          onCreateComment={onCreateComment}
           onDeleteComment={onDeleteComment}
         />
       ))}
     </Grid>
   )
 }
+
+export default CatList
 
 const Grid = styled.section`
   display: grid;
@@ -51,11 +66,4 @@ const Grid = styled.section`
   @media (min-width: 1470px) {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
-`
-
-const EmptyMessage = styled.p`
-  grid-column: 1 / -1;
-  text-align: center;
-  color: #555;
-  font-style: italic;
 `
