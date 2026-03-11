@@ -3,6 +3,11 @@ import cors from "cors"
 import dotenv from "dotenv"
 import mongoose from "mongoose"
 
+import userRouter from "./routes/userRoutes.js"
+import catRouter from "./routes/catRoutes.js"
+import commentRouter from "./routes/commentRoutes.js"
+import adminRouter from "./routes/adminRoutes.js"
+
 dotenv.config()
 
 const app = express()
@@ -28,11 +33,6 @@ mongoose
     console.error("MongoDB connection error:", err)
     process.exit(1)
   })
-
-import userRouter from "./routes/userRoutes.js"
-import catRouter from "./routes/catRoutes.js"
-import commentRouter from "./routes/commentRoutes.js"
-import adminRouter from "./routes/adminRoutes.js"
 
 app.use("/admin", adminRouter)
 app.use("/users", userRouter)
