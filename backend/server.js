@@ -17,7 +17,7 @@ app.use(
 app.use(express.json({ limit: "10mb" }))
 app.use(express.urlencoded({ limit: "10mb", extended: true }))
 
-const MONGO_URL = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/final-project"
+const mongoUrl = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/final-project"
 mongoose
   .connect(mongoUrl, {
     useNewUrlParser: true,
