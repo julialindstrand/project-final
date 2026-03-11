@@ -1,4 +1,4 @@
-export const API_URL = import.meta.env.VITE_API_URL || "https://api.render.com/deploy/srv-d6onvbqa214c73bfjus0?key=kG1oUUp7PgU"
+export const API_URL = import.meta.env.VITE_API_URL || "https://catsarchivetrackingsystem.onrender.com"
 
 
 export const fetchJson = async (endpoint, options = {}) => {
