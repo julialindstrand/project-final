@@ -10,7 +10,7 @@ const router = express.Router()
 // Signup
 router.post("/signup", async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password } = req.body
 
     if (!name?.trim() || !email?.trim() || !password) {
       return res.status(400).json({
@@ -19,7 +19,7 @@ router.post("/signup", async (req, res) => {
       })
     }
 
-    const existingUser = await User.findOne({ email: email.toLowerCase() });
+    const existingUser = await User.findOne({ email: email.toLowerCase() })
     if (existingUser) {
       return res.status(400).json({
         success: false,

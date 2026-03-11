@@ -2,7 +2,7 @@ import express, { } from "express"
 import multer from "multer"
 import dotenv from "dotenv"
 import { CloudinaryStorage } from "multer-storage-cloudinary"
-import cloudinaryFramework from "cloudinary"
+import cloudinary from "cloudinary"
 import Cat from "../models/Cat"
 import authenticate from "../middleware/authenticate"
 import authorize from "../middleware/authorize"
@@ -11,15 +11,15 @@ import authorize from "../middleware/authorize"
 dotenv.config()
 
 // Cloudinary
-const cloudinary = cloudinaryFramework.v2
-cloudinary.config({
+const { v2: cloudinaryV2 } = cloudinary
+cloudinaryV2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 })
 
 const storage = new CloudinaryStorage({
-  cloudinary,
+  cloudinary: cloudinaryV2,
   params: {
     folder: "cats",
     allowedFormats: ["jpg", "png"],
