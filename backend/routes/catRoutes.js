@@ -4,7 +4,6 @@ import dotenv from "dotenv"
 import { CloudinaryStorage } from "multer-storage-cloudinary"
 import cloudinaryFramework from "cloudinary"
 import Cat from "../models/Cat"
-import { verifyToken } from "../models/auth"
 import authenticate from "../middleware/authenticate"
 import authorize from "../middleware/authorize"
 
@@ -50,7 +49,7 @@ router.get("/cats", async (req, res) => {
 
 // One cat
 router.get("/cats/:id", async (req, res) => {
-  const id = req.params._id
+  const id = req.params.id
   try {
     const cat = await Cat.findById(id)
     res.json(cat)
@@ -91,7 +90,7 @@ router.post("/cats", authenticate, authorize('admin', 'editor'), parser.single('
 })
 
 // Edit
-router.put("/cats/:id", authenticate, authorize('admin', 'editor'), verifyToken, async (req, res) => {
+router.put("/cats/:id", authenticate, authorize('admin', 'editor'), async (req, res) => {
   try {
 
     const editedCat = req.body
@@ -112,7 +111,7 @@ router.put("/cats/:id", authenticate, authorize('admin', 'editor'), verifyToken,
 
 // Delete
 router.delete("/cats/:id", authenticate, authorize('admin', 'editor'), async (req, res) => {
-  const id = req.params._id
+  const id = req.params.id
   try {
     const cat = await Cat.findById(id)
 

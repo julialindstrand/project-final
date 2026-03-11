@@ -2,8 +2,10 @@ import jwt from "jsonwebtoken"
 
 export default function authenticate(req, res, next) {
   const authHeader = req.headers.authorization
+
   if (!authHeader?.startsWith('Bearer '))
     return res.status(401).json({ msg: 'Missing token' })
+
 
   const token = authHeader.split(' ')[1]
   try {

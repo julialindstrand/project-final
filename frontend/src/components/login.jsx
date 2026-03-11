@@ -79,8 +79,8 @@ export const LoginForm = ({ login }) => {
         </FormWrapper>
       </Wrapper>
     </StyledBody>
-  );
-};
+  )
+}
 
 export default LoginForm
 

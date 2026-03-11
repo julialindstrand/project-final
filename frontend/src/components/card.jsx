@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import styled from "styled-components"
+import { fetchJson } from "../api/api"
 
 export const CatCard = ({ cat, currentUser, onEdit, onCreateComment, onDelete, onDeleteComment }) => {
   const catId = cat._id
@@ -12,21 +13,43 @@ export const CatCard = ({ cat, currentUser, onEdit, onCreateComment, onDelete, o
   const [formData, setFormData] = useState(cat)
 
   // Show comments
-  const toggleExpand = () => {
+  const toggleExpand = async () => {
+    if (!expanded) {
+      setLoading(true)
+      try {
+        const response = await fetchJson(`/comments/${catId}/comments`)
+        setComments(response)
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setLoading(false)
+      }
+    }
     setExpanded((prev) => !prev)
   }
+
 
   // New comment
   const handleCreateComment = async (e) => {
     e.preventDefault()
     if (!newText.trim()) return
-    if (typeof onCreateComment === "function") onCreateComment(catId, newText.trim())
-    setNewText("")
+    try {
+      const newComment = await onCreateComment(catId, newText.trim())
+      setComments(prevComments => [...prevComments, newComment])
+      setNewText("")
+    } catch (err) {
+      setError(err.message)
+    }
   }
 
   // Delete comment
-  const handleDeleteComment = (catId, commentId) => {
-    if (typeof onDelete === "function") onDeleteComment(catId, commentId)
+  const handleDeleteComment = async (commentId) => {
+    try {
+      await onDeleteComment(catId, commentId)
+      setComments(prevComments => prevComments.filter(comment => comment._id !== commentId))
+    } catch (err) {
+      setError(err.message)
+    }
   }
 
   // Delete cat
@@ -145,14 +168,14 @@ export const CatCard = ({ cat, currentUser, onEdit, onCreateComment, onDelete, o
               {error && <ErrorMsg>{error}</ErrorMsg>}
 
               <CommentList>
-                {(cat.comments ?? []).map((c) => (
+                {comments.map((c) => (
                   <CommentItem key={c._id}>
                     <CommentInfo>
                       <div>
                         <Author>{c.userName}</Author>
                         <Timestamp>{new Date(c.createdAt).toLocaleString()}</Timestamp>
                       </div>
-                      <OtherBtn onClick={() => handleDeleteComment(catId, c._id)}>
+                      <OtherBtn onClick={() => handleDeleteComment(c._id)}>
                         🗑️
                       </OtherBtn>
                     </CommentInfo>

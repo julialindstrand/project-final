@@ -19,7 +19,6 @@ export const useAuth = () => {
 
   const storeSession = useCallback((session) => {
     const { token, ...rest } = session
-    console.log("Storing user session:", rest)
     if (token) localStorage.setItem("token", token)
     localStorage.setItem("user", JSON.stringify(rest))
     setUser(rest)

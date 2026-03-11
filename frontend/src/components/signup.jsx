@@ -86,8 +86,8 @@ export const SignUpForm = ({ onSuccess }) => {
         </FormWrapper>
       </Wrapper>
     </StyledBody>
-  );
-};
+  )
+}
 
 export default SignUpForm
 

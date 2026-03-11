@@ -54,7 +54,7 @@ export default function AdminPanel() {
 
     const token = localStorage.getItem("token")
     try {
-      const response = await fetch(`${apiUrl}/users/signup`, {
+      const response = await fetch(`${apiUrl}/admin/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

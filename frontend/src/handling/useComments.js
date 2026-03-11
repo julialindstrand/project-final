@@ -5,15 +5,16 @@ export const useComments = () => {
 
   // Add
   const createComment = useCallback(async (catId, text) => {
-    await fetchJson(`/cats/${catId}/comments`, {
+    const newComment = await fetchJson(`/comments/${catId}/comments`, {
       method: "POST",
       body: JSON.stringify({ text: text.trim() }),
     })
+    return newComment // ← return it so CatCard can use it
   }, [])
 
   // Delete
   const deleteComment = useCallback(async (catId, commentId) => {
-    await fetchJson(`/cats/${catId}/comments/${commentId}`, {
+    return await fetchJson(`/comments/${catId}/comments/${commentId}`, { // ← fixed path
       method: "DELETE",
     })
   }, [])

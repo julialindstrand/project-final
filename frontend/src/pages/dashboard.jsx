@@ -1,5 +1,5 @@
 import { useContext, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { AuthContext } from "../components/authenticate"
 import styled from "styled-components"
 import CatForm from "../components/catForm"
@@ -14,6 +14,12 @@ export const Dashboard = ({
   onDeleteComment,
 }) => {
   const { user, logout } = useContext(AuthContext)
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    logout()
+    navigate("/login")
+  }
 
   // Filter state
   const [locationFilter, setLocationFilter] = useState("")
@@ -27,7 +33,7 @@ export const Dashboard = ({
         {user && (
           <UserBar>
             <Greeting>Welcome, {user.name}!</Greeting>
-            <StyledBtn onClick={logout}>Logout</StyledBtn>
+            <StyledBtn onClick={handleLogout}>Logout</StyledBtn>
           </UserBar>
         )}
 

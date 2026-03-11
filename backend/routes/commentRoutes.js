@@ -1,19 +1,17 @@
 import express from "express"
-import { verifyToken } from "../models/auth.js"
+import { verifyToken } from "../middleware/verifyToken.js"
 import Cat from "../models/Cat.js"
 
 const router = express.Router()
 
 // Comments
-router.get("/cats/:catId/comments", async (req, res) => {
+router.get("/:catId/comments", async (req, res) => {
   const { catId } = req.params
   try {
     const cat = await Cat.findById(catId).select("comments")
     if (!cat) return res.status(404).json({ message: "Cat not found" })
 
-    const sorted = cat.comments.sort(
-      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-    )
+    const sorted = cat.comments.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
     res.json(sorted)
   } catch (err) {
     console.error("Get comments error:", err)
@@ -22,7 +20,7 @@ router.get("/cats/:catId/comments", async (req, res) => {
 })
 
 // Post comment
-router.post("/cats/:catId/comments", verifyToken, async (req, res) => {
+router.post("/:catId/comments", verifyToken, async (req, res) => {
   const { catId } = req.params
   const { text } = req.body
 
@@ -39,6 +37,7 @@ router.post("/cats/:catId/comments", verifyToken, async (req, res) => {
       userId: req.user._id,
       userName: req.user.name,
       text: text.trim(),
+      createdAt: new Date(),
     })
 
     await cat.save()
@@ -52,7 +51,7 @@ router.post("/cats/:catId/comments", verifyToken, async (req, res) => {
 })
 
 // Delete comment
-router.delete("/cats/:catId/comments/:commentId", verifyToken, async (req, res) => {
+router.delete("/:catId/comments/:commentId", verifyToken, async (req, res) => {
   const { catId, commentId } = req.params
   const cat = await Cat.findById(catId)
   if (!cat) return res.status(404).json({ message: "Cat not found" })
