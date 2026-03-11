@@ -1,9 +1,8 @@
+import { API_URL } from "../api/api"
 import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import { AuthContext } from "../components/authenticate"
-
-const apiUrl = import.meta.env.VITE_API_URL
 
 export default function AdminPanel() {
   const navigate = useNavigate()
@@ -21,12 +20,12 @@ export default function AdminPanel() {
 
   useEffect(() => {
     if (!user) return
-    if (!apiUrl) {
+    if (!API_URL) {
       setError("API URL not configured")
       return
     }
     const token = localStorage.getItem("token")
-    fetch(`${apiUrl}/admin`, {
+    fetch(`${API_URL}/admin`, {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     })
       .then((res) => {
@@ -35,7 +34,7 @@ export default function AdminPanel() {
       })
       .then((data) => setStats(data.data))
       .catch((err) => setError(err.message))
-  }, [user, apiUrl])
+  }, [user, API_URL])
 
   if (!user) return <p>Loading…</p>
   if (user.role !== "admin") return <p>Access denied, admin only.</p>
@@ -54,7 +53,7 @@ export default function AdminPanel() {
 
     const token = localStorage.getItem("token")
     try {
-      const response = await fetch(`${apiUrl}/admin/users`, {
+      const response = await fetch(`${API_URL}/admin/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
