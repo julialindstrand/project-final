@@ -32,7 +32,7 @@ mongoose
 import userRouter from "./routes/userRoutes.js"
 import catRouter from "./routes/catRoutes.js"
 import commentRouter from "./routes/commentRoutes.js"
-import adminRouter from "./routes/adminRoutes"
+import adminRouter from "./routes/adminRoutes.js"
 
 app.use("/admin", adminRouter)
 app.use("/users", userRouter)
