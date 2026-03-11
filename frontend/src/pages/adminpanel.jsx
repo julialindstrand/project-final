@@ -80,9 +80,9 @@ export default function AdminPanel() {
 
   return (
     <PanelWrapper>
-      <button onClick={() => navigate(-1)} style={{ marginBottom: '20px', cursor: 'pointer' }}>
+      <StyledBtn onClick={() => navigate(-1)}>
         ← Back to Dashboard
-      </button>
+      </StyledBtn>
 
       <h2>Admin Dashboard</h2>
       <p>Welcome, {user.name}</p>
@@ -130,20 +130,12 @@ export default function AdminPanel() {
             style={inputStyle}
           />
 
-          <button
+          <StyledBtn
             type="submit"
             disabled={submitting}
-            style={{
-              padding: '10px',
-              background: '#007bff',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: submitting ? 'not-allowed' : 'pointer'
-            }}
           >
             {submitting ? "Creating..." : "Create User"}
-          </button>
+          </StyledBtn>
         </form>
       </div>
     </PanelWrapper>
@@ -165,3 +157,16 @@ const inputStyle = {
   border: '1px solid #ccc',
   fontSize: '14px',
 }
+
+const StyledBtn = styled.button`
+  background-color: #b0cebd;
+  border: 2px solid #3f895c;
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 10px;
+  
+  &:hover {
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);  padding: 8px;
+    cursor: pointer;
+  }
+`

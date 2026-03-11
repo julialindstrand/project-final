@@ -205,8 +205,9 @@ export const CatCard = ({ cat, currentUser, onEdit, onCreateComment, onDelete, o
 }
 
 const CardWrapper = styled.article`
+  width: 100%;
   max-width: 365px;
-  min-width: 320px;
+  min-width: 0;
   border: 2px solid #3f895c;
   border-radius: 8px;
   overflow: hidden;
@@ -283,7 +284,6 @@ const OtherBtn = styled.button`
 
 const Tag = styled.span`
   background: #d4ded7;
-  /* color: #000000; */
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 0.85rem;
@@ -343,7 +343,7 @@ const Text = styled.p`
  `
 
 const CommentInput = styled.textarea`
-  width: 92%;
+  width: 100%;
   min-height: 60px;
   resize: vertical;
   margin-bottom: 6px;

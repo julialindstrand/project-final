@@ -88,25 +88,18 @@ export const CatForm = ({ onSuccess }) => {
     <Wrapper>
       <FormWrapper onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="picture"></label>
-          <ImageBox>
-            {previewUrl && (
-              <PreviewImg
-                src={previewUrl}
-                alt="Cat preview"
-              />
-            )}
-          </ImageBox>
-          <div>
-            <input
-              type="file"
-              id="picture"
-              name="picture"
-              accept="image/*"
-              onChange={handleChange}
-              aria-label="picture"
-            />
-          </div>
+          <label htmlFor="picture">
+            <ImageBox>
+              <PreviewImg src={previewUrl} alt="Cat preview" />
+            </ImageBox>
+          </label>
+          <HiddenInput
+            type="file"
+            id="picture"
+            name="picture"
+            accept="image/*"
+            onChange={handleChange}
+          />
         </div>
 
         {/* Name */}
@@ -178,6 +171,8 @@ const Wrapper = styled.main`
   background-color: #2B5C3F;
   max-width: 345px;
   box-shadow: 0px 10px 20px 2px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  width: 100%;
 `
 
 const FormWrapper = styled.form`
@@ -189,12 +184,20 @@ const FormWrapper = styled.form`
 
 const StyledName = styled.input`
   width: 68.5%;
+
+    @media (max-width: 400px) {
+    width: 100%;
+  }
 `
 
 const StyledSelect = styled.select`
   width: 70%;
   height: 25px;
   text-align: center;
+
+    @media (max-width: 400px) {
+    width: 100%;
+  }
 `
 
 const StyledRow = styled.div`
@@ -202,6 +205,11 @@ const StyledRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   margin: 3px 0px;
+
+    @media (max-width: 400px) {
+    flex-direction: column;
+    gap: 4px;
+  }
 `
 
 const ImageBox = styled.div`
@@ -212,7 +220,16 @@ const ImageBox = styled.div`
   justify-content: center;
   overflow: hidden;
   margin-bottom: 15px;
+  cursor: pointer;
+
+    &:hover {
+    opacity: 0.85; 
+  }
   `
+
+const HiddenInput = styled.input`
+  display: none;
+`
 
 const PreviewImg = styled.img`
   max-width: 100%;

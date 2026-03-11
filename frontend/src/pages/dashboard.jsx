@@ -33,15 +33,13 @@ export const Dashboard = ({
         {user && (
           <UserBar>
             <Greeting>Welcome, {user.name}!</Greeting>
+            {user.role === "admin" && (
+              <Link to="/admin" style={{ textDecoration: "none" }}>
+                <StyledBtn>Admin Panel</StyledBtn>
+              </Link>
+            )}
             <StyledBtn onClick={handleLogout}>Logout</StyledBtn>
           </UserBar>
-        )}
-
-        {/* Admin button - only shown for admins */}
-        {user?.role === "admin" && (
-          <AdminLink to="/admin">
-            <StyledBtn>Go to Admin Panel</StyledBtn>
-          </AdminLink>
         )}
 
         <CatForm onSuccess={onNewCat} />
@@ -50,9 +48,9 @@ export const Dashboard = ({
       <FilterPart>
         <SectionTitle>All Cats</SectionTitle>
         <FiltersWrapper>
-          <label>
+          <StyledLabel>
             Location:
-            <StyledSelected
+            <select
               value={locationFilter}
               onChange={(e) => setLocationFilter(e.target.value)}
             >
@@ -61,20 +59,20 @@ export const Dashboard = ({
               <option value="animalshelter">Animal Shelter</option>
               <option value="fosterhome">Foster Home</option>
               <option value="outdoor">Outdoor</option>
-            </StyledSelected>
-          </label>
+            </select>
+          </StyledLabel>
 
-          <label>
+          <StyledLabel>
             Gender:
-            <StyledSelected
+            <select
               value={genderFilter}
               onChange={(e) => setGenderFilter(e.target.value)}
             >
               <option value="">All</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
-            </StyledSelected>
-          </label>
+            </select>
+          </StyledLabel>
         </FiltersWrapper>
 
         <CatList
@@ -101,20 +99,29 @@ const PageWrapper = styled.main`
 `
 
 const TopPart = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   max-width: 800px;
   padding: 20px;
+  box-sizing: border-box;
 `
 
 const Header = styled.h1`
   margin-bottom: 30px;
+  font-size: clamp(1.2rem, 5vw, 2rem);
 `
 
 const UserBar = styled.div`
   margin-bottom: 20px;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 12px;
+  flex-wrap: wrap;
 `
 
 const Greeting = styled.span`
@@ -125,12 +132,11 @@ const StyledBtn = styled.button`
   background-color: #b0cebd;
   border: 2px solid #3f895c;
   border-radius: 8px;
-  padding: 4px;
+  padding: 8px;
   display: block;
-  margin-left: auto;
   
   &:hover {
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);  padding: 4px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);  padding: 8px;
     cursor: pointer;
   }
 `
@@ -144,6 +150,7 @@ const FilterPart = styled.section`
   width: 100%;
   max-width: 800px;
   padding: 20px;
+  box-sizing: border-box;
 `
 
 const SectionTitle = styled.h2`
@@ -154,8 +161,10 @@ const FiltersWrapper = styled.div`
   display: flex;
   gap: 20px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 `
 
-const StyledSelected = styled.select`
-  margin-left: 5px;
+const StyledLabel = styled.label`
+  display: flex;
+  flex-direction: column;
 `
