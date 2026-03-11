@@ -7,14 +7,14 @@ import ProtectedRoute from "./pages/start"
 import { Dashboard } from "./pages/dashboard"
 import AdminPanel from "./pages/adminpanel"
 
-import useAuth from "./handling/useAuth"
+import { AuthContext } from "./components/authenticate"
 import { useCats } from "./handling/useCats"
 import { useComments } from "./handling/useComments"
 
 import styled from "styled-components"
 
 export const App = () => {
-  const { user, login, signup, logout } = useAuth()
+  const { user, login, logout } = useContext(AuthContext)
 
   // Cats
   const {
